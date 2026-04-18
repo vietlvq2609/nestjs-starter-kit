@@ -1,0 +1,12 @@
+# Build outputs
+dist
+coverage
+
+# Dependencies
+node_modules
+
+# Configs
+package-lock.json
+
+# Database (Drizzle migrations)
+libs/database/src/migrations
