@@ -1,0 +1,24 @@
+// libs/modules/{{feature-name}}/src/domain/entities/{{feature-name}}.entity.ts
+//
+// Domain Entity — pure TypeScript, zero framework dependencies.
+// All business invariants belong here.
+
+export class {{FeatureName}} {
+  constructor(
+    public readonly id: number,
+    public readonly createdAt: Date,
+    public readonly updatedAt: Date | null,
+    // TODO: add {{FeatureName}}-specific fields here
+  ) {}
+
+  // Example factory method — adapt or remove as needed
+  static create(
+    params: Omit<{{FeatureName}}, 'id' | 'createdAt' | 'updatedAt'>,
+  ): Omit<{{FeatureName}}, 'id'> {
+    return {
+      ...params,
+      createdAt: new Date(),
+      updatedAt: null,
+    };
+  }
+}

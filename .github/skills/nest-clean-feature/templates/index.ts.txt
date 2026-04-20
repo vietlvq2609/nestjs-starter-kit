@@ -1,0 +1,16 @@
+// libs/modules/{{feature-name}}/src/index.ts
+//
+// Public API barrel — only export what consumers of @app/{{feature-name}} need.
+// Do NOT re-export infrastructure internals (Drizzle repository, etc.).
+
+export { {{FeatureName}}Module } from './{{feature-name}}.module';
+export { {{FeatureName}}Service } from './application/services/{{feature-name}}.service';
+export type {
+  Create{{FeatureName}}Dto,
+  Update{{FeatureName}}Dto,
+} from './application/services/{{feature-name}}.service';
+export { {{FeatureName}} } from './domain/entities/{{feature-name}}.entity';
+export {
+  {{FeatureName}}RepositoryInterface,
+} from './domain/repositories/{{feature-name}}.repository.interface';
+export type { I{{FeatureName}}Repository } from './domain/repositories/{{feature-name}}.repository.interface';

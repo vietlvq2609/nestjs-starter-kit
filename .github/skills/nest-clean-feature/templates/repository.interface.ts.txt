@@ -1,0 +1,20 @@
+// libs/modules/{{feature-name}}/src/domain/repositories/{{feature-name}}.repository.interface.ts
+//
+// Domain Repository Interface — defines the persistence contract.
+// No infrastructure imports are allowed in this file.
+
+import { {{FeatureName}} } from '../entities/{{feature-name}}.entity';
+
+export interface I{{FeatureName}}Repository {
+  findById(id: number): Promise<{{FeatureName}} | null>;
+  findAll(): Promise<{{FeatureName}}[]>;
+  save(entity: Omit<{{FeatureName}}, 'id'>): Promise<{{FeatureName}}>;
+  update(id: number, partial: Partial<Omit<{{FeatureName}}, 'id'>>): Promise<{{FeatureName}} | null>;
+  delete(id: number): Promise<void>;
+}
+
+// Injection token — used by NestJS DI and the module provider binding.
+// Namespace export keeps the token co-located with the interface.
+export namespace {{FeatureName}}RepositoryInterface {
+  export const TOKEN = Symbol('I{{FeatureName}}Repository');
+}

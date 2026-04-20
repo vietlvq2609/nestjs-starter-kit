@@ -1,0 +1,70 @@
+// libs/modules/{{feature-name}}/src/application/services/{{feature-name}}.service.ts
+//
+// Application Service — orchestrates use-cases, applies validation, and
+// delegates persistence to the domain repository interface.
+// Must NOT import anything from the Infrastructure layer.
+
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { z } from 'zod';
+import { {{FeatureName}} } from '../../domain/entities/{{feature-name}}.entity';
+import {
+  I{{FeatureName}}Repository,
+  {{FeatureName}}RepositoryInterface,
+} from '../../domain/repositories/{{feature-name}}.repository.interface';
+
+// ---------------------------------------------------------------------------
+// Zod validation schemas (Application layer owns input validation)
+// ---------------------------------------------------------------------------
+
+export const Create{{FeatureName}}Schema = z.object({
+  // TODO: add fields matching {{FeatureName}} entity properties (except id/timestamps)
+});
+
+export const Update{{FeatureName}}Schema = Create{{FeatureName}}Schema.partial();
+
+export type Create{{FeatureName}}Dto = z.infer<typeof Create{{FeatureName}}Schema>;
+export type Update{{FeatureName}}Dto = z.infer<typeof Update{{FeatureName}}Schema>;
+
+// ---------------------------------------------------------------------------
+// Service
+// ---------------------------------------------------------------------------
+
+@Injectable()
+export class {{FeatureName}}Service {
+  constructor(
+    @Inject({{FeatureName}}RepositoryInterface.TOKEN)
+    private readonly {{featureName}}Repository: I{{FeatureName}}Repository,
+  ) {}
+
+  async findAll(): Promise<{{FeatureName}}[]> {
+    return this.{{featureName}}Repository.findAll();
+  }
+
+  async findById(id: number): Promise<{{FeatureName}}> {
+    const entity = await this.{{featureName}}Repository.findById(id);
+    if (!entity) {
+      throw new NotFoundException(`{{FeatureName}} with id ${id} not found`);
+    }
+    return entity;
+  }
+
+  async create(dto: Create{{FeatureName}}Dto): Promise<{{FeatureName}}> {
+    const validated = Create{{FeatureName}}Schema.parse(dto);
+    const newEntity = {{FeatureName}}.create(validated);
+    return this.{{featureName}}Repository.save(newEntity);
+  }
+
+  async update(id: number, dto: Update{{FeatureName}}Dto): Promise<{{FeatureName}}> {
+    const validated = Update{{FeatureName}}Schema.parse(dto);
+    const updated = await this.{{featureName}}Repository.update(id, validated);
+    if (!updated) {
+      throw new NotFoundException(`{{FeatureName}} with id ${id} not found`);
+    }
+    return updated;
+  }
+
+  async delete(id: number): Promise<void> {
+    await this.findById(id); // throws NotFoundException if not found
+    await this.{{featureName}}Repository.delete(id);
+  }
+}

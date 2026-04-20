@@ -1,0 +1,72 @@
+// libs/modules/{{feature-name}}/src/infrastructure/persistence/drizzle-{{feature-name}}.repository.ts
+//
+// Infrastructure Repository — Drizzle ORM implementation.
+// Allowed to import from @app/database and drizzle-orm only.
+// Must NOT be imported directly from Application or Domain layers.
+
+import { Inject, Injectable } from '@nestjs/common';
+import { eq } from 'drizzle-orm';
+import { NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { DRIZZLE_CLIENT } from '@app/database';
+// TODO: import the feature's table definition once the schema is added to @app/database
+// import { {{featureName}}s } from '@app/database';
+import { {{FeatureName}} } from '../../domain/entities/{{feature-name}}.entity';
+import { I{{FeatureName}}Repository } from '../../domain/repositories/{{feature-name}}.repository.interface';
+
+@Injectable()
+export class Drizzle{{FeatureName}}Repository implements I{{FeatureName}}Repository {
+  constructor(
+    @Inject(DRIZZLE_CLIENT)
+    private readonly db: NodePgDatabase<any>,
+  ) {}
+
+  async findById(id: number): Promise<{{FeatureName}} | null> {
+    // TODO: replace with actual table reference after schema is set up
+    // const rows = await this.db.select().from({{featureName}}s).where(eq({{featureName}}s.id, id));
+    // return rows[0] ? this.toEntity(rows[0]) : null;
+    throw new Error('Not implemented — add table schema first');
+  }
+
+  async findAll(): Promise<{{FeatureName}}[]> {
+    // const rows = await this.db.select().from({{featureName}}s);
+    // return rows.map(this.toEntity);
+    throw new Error('Not implemented — add table schema first');
+  }
+
+  async save(entity: Omit<{{FeatureName}}, 'id'>): Promise<{{FeatureName}}> {
+    // const rows = await this.db.insert({{featureName}}s).values(entity).returning();
+    // return this.toEntity(rows[0]);
+    throw new Error('Not implemented — add table schema first');
+  }
+
+  async update(
+    id: number,
+    partial: Partial<Omit<{{FeatureName}}, 'id'>>,
+  ): Promise<{{FeatureName}} | null> {
+    // const rows = await this.db
+    //   .update({{featureName}}s)
+    //   .set({ ...partial, updatedAt: new Date() })
+    //   .where(eq({{featureName}}s.id, id))
+    //   .returning();
+    // return rows[0] ? this.toEntity(rows[0]) : null;
+    throw new Error('Not implemented — add table schema first');
+  }
+
+  async delete(id: number): Promise<void> {
+    // await this.db.delete({{featureName}}s).where(eq({{featureName}}s.id, id));
+    throw new Error('Not implemented — add table schema first');
+  }
+
+  // ---------------------------------------------------------------------------
+  // Private helpers
+  // ---------------------------------------------------------------------------
+
+  // private toEntity(row: typeof {{featureName}}s.$inferSelect): {{FeatureName}} {
+  //   return new {{FeatureName}}(
+  //     row.id,
+  //     row.createdAt,
+  //     row.updatedAt ?? null,
+  //     // TODO: map remaining fields
+  //   );
+  // }
+}
